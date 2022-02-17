@@ -1,22 +1,121 @@
 
-var Denverfood = L.map('Denverfood').setView([39.849, -105.074], 6);
+require([
+      "esri/Map",
+      "esri/layers/FeatureLayer",
+      "esri/views/MapView",
+      "dojo/domReady!"
+    ], function(
+      Map,
+      FeatureLayer,
+      MapView
+    ) {
 
-  // load a tile layer
- L.tileLayer('https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}{r}.{ext}', {
-	attribution: 'Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-	subdomains: 'abcd',
-	minZoom: 10,
-	maxZoom: 20,
-	ext: 'png'
-}).addTo(Denverfood);
+      // Create the map
+      var map = new Map({
+        basemap: "gray"
+      });
 
+      // Create the MapView
+      var view = new MapView({
+        container: "viewDiv",
+        map: map,
+        center:[-91.1, 38.6],
+        zoom: 9
+      });
 
-var marker1 = L.marker([39.753, -105.053]).addTo(Denverfood);
-var marker2 = L.marker([39.741, -104.977]).addTo(Denverfood);
-var marker3 = L.marker([39.762, -105.030]).addTo(Denverfood);
+      /*************************************************************
+       * The PopupTemplate content is the text that appears inside the
+       * popup. {fieldName} can be used to reference the value of an
+       * attribute of the selected feature. HTML elements can be used
+       * to provide structure and styles within the content. The
+       * fieldInfos property is an array of objects (each object representing
+       * a field) that is use to format number fields and customize field
+       * aliases in the popup and legend.
+       **************************************************************/
 
+      var template = { // autocasts as new PopupTemplate()
+        title: "Neighborhood: {NHD_NAME}",
+        content: [{
+          // It is also possible to set the fieldInfos outside of the content
+          // directly in the popupTemplate. If no fieldInfos is specifically set
+          // in the content, it defaults to whatever may be set within the popupTemplate.
+          type: "fields",
+          fieldInfos: [{
+            fieldName: "Height",
+            label: "Height: ",
+            visible: true
+          }, {
+            fieldName: "Weight",
+            label: "Weight: ",
+            visible: true,
+            format: {
+              digitSeparator: true,
+              places: 0
+            }
+          }, {
+            fieldName: "Shot",
+            label: "Shoots: ",
+            visible: true,
+            format: {
+              digitSeparator: true,
+              places: 0
+            }
+          }, {
+            fieldName: "Team",
+            label: "Team",
+            visible: true,
+            format: {
+              digitSeparator: true,
+              places: 0
+            }
+          }, {
+            fieldName: "RankingType",
+            label: "Ranking Type",
+            visible: true,
+            format: {
+              digitSeparator: true,
+              places: 0
+            }
+          }
+                      ]
+        }]
+      };
 
-marker1.bindPopup("<b>Resturant 1</b><br>US Thai Cafe").openPopup();
-marker2.bindPopup("<b>Resturant 2</b><br>Phở-natic").openPopup();
-marker3.bindPopup("<b>Resturant 1</b><br>TACOS TEQUILA WHISKEY").openPopup();
+     var symbol = {
+      type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
+      url: "https://cdn.iconscout.com/icon/premium/png-256-thumb/hockey-240-984443.png",
+      width: "64px",
+      height: "64px"
+};
+  var renderer = {
+      type: "simple",  // autocasts as new SimpleRenderer()
+      symbol: symbol
+    };
+  
+  
+      // Reference the popupTemplate instance in the
+      // popupTemplate property of FeatureLayer
+      var featureLayer = new FeatureLayer({
+        url: "https://services2.arcgis.com/bB9Y1bGKerz1PTl5/ArcGIS/rest/services/STL_Neighborhood/FeatureServer/0",
+        outFields: ["*"],
+        popupTemplate: template,
+        renderer:renderer
+      });
+  
+      map.add(featureLayer);
+  
 
+   /*
+      featureLayer.renderer = {
+      type: "simple",  // autocasts as new SimpleRenderer()
+      symbol: {
+        type: "simple-marker",  // autocasts as new SimpleMarkerSymbol()
+        size: 6,
+        color: "red",
+        outline: {  // autocasts as new SimpleLineSymbol()
+          width: 0.5,
+          color: "white"
+        }
+      }
+    };*/
+    });
