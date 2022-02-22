@@ -83,7 +83,7 @@ require([
 
      var symbol = {
       type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
-      url: "https://cdn.iconscout.com/icon/premium/png-256-thumb/hockey-240-984443.png",
+      url: "https://icons.iconarchive.com/icons/google/noto-emoji-travel-places/1024/42486-house-icon.png",
       width: "64px",
       height: "64px"
 };
