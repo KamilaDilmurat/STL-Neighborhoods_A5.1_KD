@@ -1,4 +1,3 @@
-
 require([
       "esri/Map",
       "esri/layers/FeatureLayer",
@@ -19,7 +18,7 @@ require([
       var view = new MapView({
         container: "viewDiv",
         map: map,
-        center:[-91.1, 38.6],
+        center:[-90.1, 38.6],
         zoom: 9
       });
 
@@ -41,36 +40,36 @@ require([
           // in the content, it defaults to whatever may be set within the popupTemplate.
           type: "fields",
           fieldInfos: [{
-            fieldName: "Height",
-            label: "Height: ",
+            fieldName: "Shape__Area",
+            label: "Shape__Area: ",
             visible: true
           }, {
-            fieldName: "Weight",
-            label: "Weight: ",
+            fieldName: "FID",
+            label: "FID: ",
             visible: true,
             format: {
               digitSeparator: true,
               places: 0
             }
           }, {
-            fieldName: "Shot",
-            label: "Shoots: ",
+            fieldName: "NHD_NUM ",
+            label: "NHD_NUM: ",
             visible: true,
             format: {
               digitSeparator: true,
               places: 0
             }
           }, {
-            fieldName: "Team",
-            label: "Team",
+            fieldName: "NHD_NAME",
+            label: "NHD_NAME",
             visible: true,
             format: {
               digitSeparator: true,
               places: 0
             }
           }, {
-            fieldName: "RankingType",
-            label: "Ranking Type",
+            fieldName: "ANGLE",
+            label: "ANGLE",
             visible: true,
             format: {
               digitSeparator: true,
@@ -83,9 +82,9 @@ require([
 
      var symbol = {
       type: "picture-marker",  // autocasts as new PictureMarkerSymbol()
-      url: "https://icons.iconarchive.com/icons/google/noto-emoji-travel-places/1024/42486-house-icon.png",
-      width: "64px",
-      height: "64px"
+      url: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Home-icon.svg/1200px-Home-icon.svg.png",
+      width: "16px",
+      height: "16px"
 };
   var renderer = {
       type: "simple",  // autocasts as new SimpleRenderer()
@@ -105,17 +104,4 @@ require([
       map.add(featureLayer);
   
 
-   /*
-      featureLayer.renderer = {
-      type: "simple",  // autocasts as new SimpleRenderer()
-      symbol: {
-        type: "simple-marker",  // autocasts as new SimpleMarkerSymbol()
-        size: 6,
-        color: "red",
-        outline: {  // autocasts as new SimpleLineSymbol()
-          width: 0.5,
-          color: "white"
-        }
-      }
-    };*/
     });
